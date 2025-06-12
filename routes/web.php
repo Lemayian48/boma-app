@@ -12,6 +12,7 @@ use App\Livewire\User\MyFavorites;
 use App\Livewire\User\MyMessages;
 use App\Livewire\User\MyProfile;
 use App\Livewire\User\ViewProfile;
+use Livewire\Livewire;
 
 use App\Livewire\Ad\SuccessAd;
 use App\Livewire\Ad\SuccessUpgrade;
@@ -23,6 +24,7 @@ use App\Livewire\Reservation\CartSummary;
 use App\Livewire\Reservation\CheckoutSummary;
 use App\Livewire\Reservation\Purchases\MyPurchases;
 use App\Livewire\Reservation\Purchases\ViewPurchase;
+use App\Http\Controllers\Livewire\CustomFileUploadController;
 use App\Livewire\User\MyAccount;
 use App\Livewire\User\PageDetail;
 use App\Livewire\User\Contact;
@@ -39,7 +41,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// In Livewire v3 internal routes are registered automatically
+// so explicit registration is unnecessary
+
 Route::get('/manifest.json', '\App\Http\Controllers\PwaController@manifest');
+
+// Override Livewire's default upload endpoint
+Route::post('/livewire/upload-file', [CustomFileUploadController::class, 'handle'])
+    ->name('livewire.upload-file');
 
 Route::get('/', function () {
     return view('welcome');
